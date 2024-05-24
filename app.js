@@ -1,14 +1,21 @@
-const express = require('express');
-const cookieParser = require('cookie-parser');
-const userRoutes = require('./Routes/userRoutes');
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const userRoutes = require("./routes/userRoutes");
+const { syncDatabase } = require("./Models/index");
+
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use('/api', userRoutes);
+// Routes
+app.use("/api/users", userRoutes);
 
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+const PORT = 3000;
+app.listen(PORT, async () => {
+  await syncDatabase();
+  console.log(`Server is running on port ${PORT}`);
 });
+
+module.exports = app;
