@@ -26,12 +26,10 @@ const User = db.define(
     nomor_telp: {
       type: DataTypes.STRING,
     },
-    refresh_token: {
-      type: DataTypes.TEXT,
-    },
   },
   {
     freezeTableName: true,
+    timestamps: false,
   }
 );
 module.exports = User;
