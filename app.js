@@ -8,9 +8,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use('/api', userRoutes);
-
+// Routes
+app.use('/api/users', userRoutes);
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
   User.sync({ alter: true });
 });
+
+module.exports = app;
