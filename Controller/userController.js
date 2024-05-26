@@ -52,9 +52,9 @@ const login = async (req, res) => {
   const user = await User.findOne({ where: { email } });
 
   if (!user) {
-    return res.status(404).json({
+    return res.status(400).json({
       status: 'error',
-      message: 'Email not found',
+      message: 'password salah atau email tidak terdaftar',
     });
   }
 
@@ -63,7 +63,7 @@ const login = async (req, res) => {
   if (!checkPassword) {
     return res.status(400).json({
       status: 'error',
-      message: 'Password not match',
+      message: 'password salah atau email tidak terdaftar',
     });
   }
 
@@ -76,8 +76,7 @@ const login = async (req, res) => {
       id: user.id,
       username: user.username,
       email: user.email,
-      fullname: user.fullname,
-      nomor_telp: user.nomor_telp,
+      token: token,
     },
   });
 };
