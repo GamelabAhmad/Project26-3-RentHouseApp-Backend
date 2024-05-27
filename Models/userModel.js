@@ -1,8 +1,8 @@
-const db = require('../Database/database');
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require("sequelize");
+const db = require("../Database/database");
 
 const User = db.define(
-  'tbl_user',
+  "tbl_user",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -12,19 +12,31 @@ const User = db.define(
     username: {
       type: DataTypes.STRING,
       unique: true,
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING,
       unique: true,
+      allowNull: false,
     },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     fullname: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     nomor_telp: {
       type: DataTypes.STRING,
+      allowNull: false,
+    },
+    refresh_token: {
+      type: DataTypes.STRING,
+    },
+    role: {
+      type: DataTypes.ENUM("pemilik", "penyewa", "admin"),
+      allowNull: false,
     },
   },
   {
@@ -32,4 +44,5 @@ const User = db.define(
     timestamps: false,
   }
 );
+
 module.exports = User;
