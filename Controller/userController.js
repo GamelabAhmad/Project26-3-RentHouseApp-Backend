@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../Models/userModel');
 
 const register = async (req, res) => {
-  const { username, email, password, fullname, nomor_telp, confirm_password } = req.body;
+  const { username, email, password, fullname, nomor_telp, confirm_password, role } = req.body;
 
   if (password !== confirm_password) {
     return res.status(400).json({
@@ -29,6 +29,7 @@ const register = async (req, res) => {
     password: hashedPassword,
     fullname,
     nomor_telp,
+    role,
   });
 
   if (user) {
@@ -41,6 +42,7 @@ const register = async (req, res) => {
         email,
         fullname,
         nomor_telp,
+        role,
       },
     });
   }
@@ -67,7 +69,7 @@ const login = async (req, res) => {
     });
   }
 
-  const token = jwt.sign({ id: user.id, username: user.username, email: user.email }, 'secret', { expiresIn: '1d' });
+  const token = jwt.sign({ id: user.id, username: user.username, email: user.email, role: user.role, fullname: user.fullname }, 'secret', { expiresIn: '1d' });
 
   res.cookie('token', token, {
     maxAge: 1000 * 60 * 60 * 24,

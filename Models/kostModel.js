@@ -10,14 +10,6 @@ const Kost = db.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    id_user: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'tbl_user',
-        key: 'id',
-      },
-    },
     nama_kost: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -38,6 +30,10 @@ const Kost = db.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    created_by: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
   {
     freezeTableName: true,
@@ -53,16 +49,8 @@ const detailKost = db.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    id_kost: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'tbl_kost',
-        key: 'id',
-      },
-    },
     tipe_kost: {
-      type: DataTypes.ENUM('Putra', 'Putri', 'Campur'),
+      type: DataTypes.ENUM('putra', 'putri', 'campur'),
       allowNull: false,
     },
     harga_sewa: {
@@ -85,6 +73,10 @@ const detailKost = db.define(
       type: DataTypes.JSON,
       allowNull: false,
     },
+    public_id: {
+      type: DataTypes.JSON,
+      allowNull: true,
+    },
   },
   {
     freezeTableName: true,
@@ -92,7 +84,9 @@ const detailKost = db.define(
   }
 );
 
+User.hasMany(Kost, { as: 'kosts', foreignKey: 'id_user' });
 Kost.belongsTo(User, { foreignKey: 'id_user' });
 Kost.hasOne(detailKost, { as: 'detail', foreignKey: 'id_kost' });
+detailKost.belongsTo(Kost, { foreignKey: 'id_kost' });
 
 module.exports = { Kost, detailKost };

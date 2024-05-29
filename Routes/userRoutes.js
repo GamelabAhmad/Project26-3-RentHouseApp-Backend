@@ -4,7 +4,7 @@ const userController = require('../Controller/userController');
 const verify = require('../middleware/verify');
 
 router.post('/login', userController.login);
-router.get('/register', userController.register);
+router.post('/register', userController.register);
 router.get('/', verify.verifyToken, userController.getUsers);
 router.get('/:id', userController.getUserById);
 router.put('/:id', userController.updateUser);

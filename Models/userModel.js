@@ -1,8 +1,8 @@
-const { DataTypes } = require("sequelize");
-const db = require("../Database/database");
+const { DataTypes } = require('sequelize');
+const db = require('../Database/database');
 
 const User = db.define(
-  "tbl_user",
+  'tbl_user',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -35,13 +35,12 @@ const User = db.define(
       type: DataTypes.STRING,
     },
     role: {
-      type: DataTypes.ENUM("pemilik", "penyewa", "admin"),
+      type: DataTypes.ENUM('pemilik', 'penyewa', 'admin'),
       allowNull: false,
     },
   },
   {
     freezeTableName: true,
-    timestamps: false,
   }
 );
 

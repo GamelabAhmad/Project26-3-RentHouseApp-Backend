@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const userRoutes = require('./Routes/userRoutes');
 const kostRoutes = require('./Routes/kostRoutes');
+const User = require('./Models/userModel');
 const { Kost, detailKost } = require('./Models/kostModel');
 const app = express();
 
@@ -15,8 +16,8 @@ app.use('/api/kosts', kostRoutes);
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
-  Kost.sync({ force: true });
-  detailKost.sync({ force: true });
+  // User.sync({ alter: true });
+  // Kost.sync({ alter: true });
 });
 
 module.exports = app;
