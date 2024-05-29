@@ -14,7 +14,7 @@ app.use(cookieParser());
 app.use('/api/users', userRoutes);
 app.use('/api/kosts', kostRoutes);
 
-app.listen(3000, () => {
+app.listen(4000, () => {
   console.log('Server is running on port 3000');
   // User.sync({ alter: true });
   // Kost.sync({ alter: true });

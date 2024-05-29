@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../Models/userModel');
+const { google } = require('googleapis');
+const oauth2Client = require('../middleware/authGoogle');
 
 const register = async (req, res) => {
   const { username, email, password, fullname, nomor_telp, confirm_password, role } = req.body;
@@ -134,6 +136,54 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const loginWithGoogle = async (req, res) => {
+  const scope = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'];
+
+  const authorizationUrl = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: scope,
+    include_granted_scopes: true,
+  });
+
+  res.redirect(authorizationUrl);
+};
+
+const googleCallback = async (req, res) => {
+  const { code } = req.query;
+  const { tokens } = await oauth2Client.getToken(code);
+  oauth2Client.setCredentials(tokens);
+  const oauth2 = google.oauth2({ version: 'v2', auth: oauth2Client });
+  const { data } = await oauth2.userinfo.get();
+
+  if (!data) {
+    return res.json({
+      data: data,
+    });
+  }
+
+  let user = await User.findOne({ where: { email: data.email } });
+  if (!user) {
+    user = await User.create({
+      fullname: data.name,
+      email: data.email,
+      role: 'penyewa',
+    });
+  }
+  const token = jwt.sign({ id: user.id, username: user.username, email: user.email, role: user.role, fullname: user.fullname }, 'secret', { expiresIn: '1d' });
+  res.cookie('token', token, {
+    maxAge: 1000 * 60 * 60 * 24,
+    httpOnly: true,
+  });
+
+  res.json({
+    data: {
+      id: user.id,
+      fullname: user.fullname,
+      email: user.email,
+    },
+    token: token,
+  });
+};
 module.exports = {
   register,
   getUsers,
@@ -141,4 +191,6 @@ module.exports = {
   updateUser,
   deleteUser,
   login,
+  loginWithGoogle,
+  googleCallback,
 };

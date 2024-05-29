@@ -12,7 +12,6 @@ const User = db.define(
     username: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: false,
     },
     email: {
       type: DataTypes.STRING,
@@ -21,7 +20,6 @@ const User = db.define(
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     fullname: {
       type: DataTypes.STRING,
@@ -29,7 +27,6 @@ const User = db.define(
     },
     nomor_telp: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
     refresh_token: {
       type: DataTypes.STRING,
