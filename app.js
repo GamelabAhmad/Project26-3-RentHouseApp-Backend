@@ -14,6 +14,7 @@ app.use(cookieParser());
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/kosts', kostRoutes);
+app.use('/api/transaksi', transaksiRoutes);
 
 app.listen(4000, () => {
   console.log('Server is running on port 3000');
