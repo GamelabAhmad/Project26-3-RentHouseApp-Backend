@@ -33,6 +33,7 @@ const User = db.define(
     },
     role: {
       type: DataTypes.ENUM('pemilik', 'penyewa', 'admin'),
+      defaultValue: 'penyewa',
       allowNull: false,
     },
   },
