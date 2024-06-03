@@ -90,47 +90,18 @@ const login = async (req, res) => {
   });
 };
 
-const getUsers = async (req, res) => {
-  try {
-    const users = await User.findAll();
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-const getUserById = async (req, res) => {
-  try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) return res.status(404).json({ message: 'User not found' });
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
 const updateUser = async (req, res) => {
   try {
-    const { username, email, fullname, nomor_telp } = req.body;
+    const { username, email, fullname, nomor_telp, password } = req.body;
     const user = await User.findByPk(req.params.id);
     if (!user) return res.status(404).json({ message: 'User not found' });
     user.username = username || user.username;
+    user.password = password || user.password;
     user.email = email || user.email;
     user.fullname = fullname || user.fullname;
     user.nomor_telp = nomor_telp || user.nomor_telp;
     await user.save();
     res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-const deleteUser = async (req, res) => {
-  try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) return res.status(404).json({ message: 'User not found' });
-    await user.destroy();
-    res.status(200).json({ message: 'User deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -186,8 +157,6 @@ const googleCallback = async (req, res) => {
 };
 module.exports = {
   register,
-  getUsers,
-  getUserById,
   updateUser,
   deleteUser,
   login,
