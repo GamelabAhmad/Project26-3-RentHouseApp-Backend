@@ -11,16 +11,19 @@ let snap = new midtransClient.Snap({
 });
 
 const createTransaksi = async (req, res) => {
+  const id_user = jwt.decode(req.cookies.token).id;
   const { id_kost } = req.body;
 
   const getKost = await Kost.findOne({ where: { id: id_kost } });
   const detail = await detailKost.findOne({ where: { id_kost } });
   const pemilik = await User.findOne({ where: { id: getKost.id_user } });
 
+  const user = await User.findOne({ where: { id: id_user } });
+
   const total = detail.harga_sewa;
-  const name = 'fian';
-  const email = 'fian@gmail.com';
-  const transaction_id = Date.now();
+  const name = user.fullname;
+  const email = user.email;
+  const transaction_id = `KOST-${Date.now()}`;
   const payload = {
     transaction_details: {
       order_id: transaction_id,
@@ -36,7 +39,7 @@ const createTransaksi = async (req, res) => {
         merchant_name: pemilik.fullname,
       },
     ],
-    customer_detail: {
+    customer_details: {
       first_name: name,
       email: email,
     },
