@@ -14,14 +14,12 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-const verifyTokenAndAuthorization = (req, res, next) => {
-  verifyToken(req, res, () => {
-    if (req.user.role === 'pemilik') {
-      next();
-    } else {
-      return res.status(401).json('You are not authorized!');
-    }
-  });
+const verifyIsPemilik = (req, res, next) => {
+  if (req.user !== 'pemilik') {
+    return res.status(401).json('You are not authorized!');
+  }
+
+  next();
 };
 
-module.exports = { verifyToken, verifyTokenAndAuthorization };
+module.exports = { verifyToken, verifyIsPemilik };
