@@ -7,42 +7,44 @@ const Transaksi = db.define(
   'tbl_transaksi',
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       primaryKey: true,
-      autoIncrement: true,
-    },
-    id_user: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
     },
     id_kost: {
       type: DataTypes.INTEGER,
-      allowNull: false,
     },
-    jumlah_uang_dibayarkan: {
+    nama_kost: {
+      type: DataTypes.STRING,
+    },
+    total: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    tanggal_bayar: {
-      type: DataTypes.DATE,
-      allowNull: false,
     },
     status: {
-      type: DataTypes.ENUM('pending', 'accepted', 'rejected'),
-      allowNull: false,
+      type: DataTypes.ENUM('PENDING_PAYMENT', 'PAID', 'CANCELED'),
+      defaultValue: 'PENDING_PAYMENT',
     },
-    dibayarkan_oleh: {
+    customer_name: {
       type: DataTypes.STRING,
-      allowNull: false,
+    },
+    customer_email: {
+      type: DataTypes.STRING,
+    },
+    snap_token: {
+      type: DataTypes.STRING,
+    },
+    snap_redirect_url: {
+      type: DataTypes.STRING,
+    },
+    payment_method: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {
     freezeTableName: true,
-    createdAt: false,
   }
 );
 
 Transaksi.belongsTo(Kost, { as: 'kost', foreignKey: 'id_kost' });
-Transaksi.belongsTo(User, { as: 'riwayat_transaksi', foreignKey: 'id_user' });
 
-module.exports = Transaksi;
+module.exports = { Transaksi };
