@@ -9,10 +9,6 @@ const User = db.define(
       primaryKey: true,
       autoIncrement: true,
     },
-    username: {
-      type: DataTypes.STRING,
-      unique: true,
-    },
     email: {
       type: DataTypes.STRING,
       unique: true,
@@ -33,6 +29,7 @@ const User = db.define(
     },
     role: {
       type: DataTypes.ENUM('pemilik', 'penyewa', 'admin'),
+      defaultValue: 'penyewa',
       allowNull: false,
     },
   },

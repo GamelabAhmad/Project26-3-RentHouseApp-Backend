@@ -14,4 +14,14 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-module.exports = { verifyToken };
+const verifyTokenAndAuthorization = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.user.role === 'pemilik') {
+      next();
+    } else {
+      return res.status(401).json('You are not authorized!');
+    }
+  });
+};
+
+module.exports = { verifyToken, verifyTokenAndAuthorization };

@@ -5,12 +5,12 @@ const { google } = require('googleapis');
 const oauth2Client = require('../middleware/authGoogle');
 
 const register = async (req, res) => {
-  const { username, email, password, fullname, nomor_telp, confirm_password, role } = req.body;
+  const { username, email, password, fullname, nomor_telp, role } = req.body;
 
-  if (password !== confirm_password) {
+  if (!username || !email || !password || !fullname || !nomor_telp || !role) {
     return res.status(400).json({
       status: 'error',
-      message: 'Password and confirm password not match',
+      message: 'All fields are required',
     });
   }
 
@@ -158,7 +158,6 @@ const googleCallback = async (req, res) => {
 module.exports = {
   register,
   updateUser,
-  deleteUser,
   login,
   loginWithGoogle,
   googleCallback,
