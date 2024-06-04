@@ -23,12 +23,9 @@ const Transaksi = db.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    tanggal_bayar: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
     status: {
-      type: DataTypes.ENUM('pending', 'accepted', 'rejected'),
+      type: DataTypes.ENUM('pending', 'accepted'),
+      defaultValue: 'pending',
       allowNull: false,
     },
     dibayarkan_oleh: {
@@ -38,7 +35,6 @@ const Transaksi = db.define(
   },
   {
     freezeTableName: true,
-    createdAt: false,
   }
 );
 

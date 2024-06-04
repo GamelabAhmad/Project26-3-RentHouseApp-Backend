@@ -15,11 +15,13 @@ const verifyToken = (req, res, next) => {
 };
 
 const verifyIsPemilik = (req, res, next) => {
-  if (req.user !== 'pemilik') {
-    return res.status(401).json('You are not authorized!');
-  }
-
-  next();
+  verifyToken(req, res, next, () => {
+    if (req.user.role === 'pemilik') {
+      next();
+    } else {
+      res.status(403).json('You are not pemilik!');
+    }
+  });
 };
 
 module.exports = { verifyToken, verifyIsPemilik };

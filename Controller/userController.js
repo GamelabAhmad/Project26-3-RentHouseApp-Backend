@@ -146,7 +146,7 @@ const googleCallback = async (req, res) => {
     httpOnly: true,
   });
 
-  res.json({
+  res.status(200).json({
     data: {
       id: user.id,
       fullname: user.fullname,
@@ -155,6 +155,12 @@ const googleCallback = async (req, res) => {
     token: token,
   });
 };
+
+const logout = async (req, res) => {
+  res.clearCookie('token');
+  res.redirect('/');
+};
+
 module.exports = {
   register,
   updateUser,

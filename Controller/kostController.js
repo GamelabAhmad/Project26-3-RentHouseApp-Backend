@@ -156,6 +156,27 @@ const searchKosts = async (req, res) => {
   }
 };
 
+const searchKostsByCity = async (req, res) => {
+  try {
+    const { kota } = req.body;
+    const kosts = await Kost.findAll({
+      where: { kota: kota },
+      include: {
+        model: detailKost,
+        attributes: ['tipe_kost', 'harga_sewa', 'jumlah_kamar', 'fasilitas', 'peraturan', 'gambar'],
+        as: 'detail',
+      },
+    });
+    if (kosts.length === 0) {
+      return res.status(404).json({ message: 'kost tidak ditemukan' });
+    }
+
+    res.status(200).json(kosts);
+  } catch (error) {
+    res.status(500).json({ message: 'server error' });
+  }
+};
+
 const updateKosts = async (req, res) => {
   try {
     const { id } = req.params;

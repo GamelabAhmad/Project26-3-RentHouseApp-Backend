@@ -24,9 +24,6 @@ const User = db.define(
     nomor_telp: {
       type: DataTypes.STRING,
     },
-    refresh_token: {
-      type: DataTypes.STRING,
-    },
     role: {
       type: DataTypes.ENUM('pemilik', 'penyewa', 'admin'),
       defaultValue: 'penyewa',
